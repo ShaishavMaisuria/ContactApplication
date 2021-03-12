@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">ContactApp</string>
+    <string name="stringAdd">Add</string>
+    <string name="StringDelete">Delete</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
