@@ -1,17 +1,18 @@
 package com.example.contactapp;
 
-import android.nfc.Tag;
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -63,13 +64,33 @@ public class ContactDisplayFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_contact_display, container, false);
+        getActivity().setTitle("Contact Details");
         ListView applistView;
         getContacts();
 //       Log.d(TAG,"List of contact"+mParam1[0].toString().split(","));
+
+        Log.d(TAG,"Start mListener ");
+
+
+        view.findViewById(R.id.buttonAdd).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mListener.gotoCreateNewContacts();
+            }
+        });
         return view;
     }
 
 
+
+
+
+
+    ListView applistView;
+ArrayList<Contact> contactObject;
+ArrayAdapter<String> adapter;
+ArrayList<String> contactNames;
     void getContacts(){
         //https://www.theappsdr.com/contacts
         Request request = new Request.Builder()
@@ -91,17 +112,57 @@ public class ContactDisplayFragment extends Fragment {
 //                    Log.d(TAG,"OnResponse " + responseBody.string());
 
                     final String[] contacts= body.split("\n");
+                    contactObject = new ArrayList<Contact>(contacts.length);
+                    contactNames=new ArrayList<>(contacts.length);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
 
                             Log.d(TAG,"runUIThread ID " + Thread.currentThread().getId());
 
-                            Log.d(TAG, "Broken Length"+contacts.length);
-                            Log.d(TAG, "Broken List"+contacts[1].toString().split(",")[0].toString());
+                            Log.d(TAG, "Broken Length "+contacts.length);
+                            String id = "";
+                            String name="";
+                            String email="";
+                            String phone="";
+                            String type="";
+
+
+                            for(int i=0;i<contacts.length;i++) {
+//                                Log.d(TAG, "Broken List" + contacts[1].toString().split(",")[0].toString());
+                                String[] arr=contacts[i].split(",");
+                                id= arr[0].toString();
+                                name=arr[1].toString();
+                                email=arr[2].toString();
+                                phone=arr[3].toString();
+                                type=arr[4].toString();
+                                contactObject.add(new Contact(id, name,  email,  phone,  type));
+                                contactNames.add(name);
+                            }
+
+                            Log.d(TAG, "OnResponse contacts items"+contactObject.toString());
+
+                            applistView=getActivity().findViewById(R.id.listViewContactList);
+                            adapter= new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,android.R.id.text1,contactNames);
+
+                            applistView.setAdapter(adapter);
+
+                            applistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    Contact contact = contactObject.get(position);
+                                    adapter.notifyDataSetChanged();
+
+                                    Log.d(TAG,"onItemClick "+contact.toString());
+
+                                    mListener.gotContactToDetails(contact);
+                                }
+                            });
 
                         }
                     });
+
+
 
 
                 }
@@ -109,8 +170,27 @@ public class ContactDisplayFragment extends Fragment {
         });
 
 
+
+
+
+
+
+    }
+    ContactListener mListener;
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof ContactListener) {
+            mListener = (ContactListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + "must implement contactListener");
+        }
     }
 
+    interface ContactListener {
+        void gotContactToDetails(Contact contact);
+        void gotoCreateNewContacts();
 
+    }
 
 }

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/createNewContact"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".CreateNewContact" >
+
+    <TextView
+        android:id="@+id/textViewNameCreate"
+        android:layout_width="85dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="44dp"
+        android:text="@string/StringName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewphoneNumberccreate"
+        android:layout_width="83dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/stringPhoneNumber"
+        app:layout_constraintEnd_toEndOf="@+id/textViewEmailCreate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEmailCreate" />
+
+    <TextView
+        android:id="@+id/textViewEmailCreate"
+        android:layout_width="81dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="44dp"
+        android:text="@string/Stringemail"
+        app:layout_constraintEnd_toEndOf="@+id/textViewNameCreate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNameCreate" />
+
+    <TextView
+        android:id="@+id/textViewCreateType"
+        android:layout_width="79dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/stringType"
+        app:layout_constraintEnd_toEndOf="@+id/textViewphoneNumberccreate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewphoneNumberccreate" />
+
+    <EditText
+        android:id="@+id/editTextUpdatePersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/StringName"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewNameCreate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewNameCreate"
+        app:layout_constraintTop_toTopOf="@+id/textViewNameCreate" />
+
+    <EditText
+        android:id="@+id/editTextUpdateEmailAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/Stringemail"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEmailCreate"
+        app:layout_constraintEnd_toEndOf="@+id/editTextUpdatePersonName"
+        app:layout_constraintStart_toStartOf="@+id/editTextUpdatePersonName"
+        app:layout_constraintTop_toTopOf="@+id/textViewEmailCreate" />
+
+    <EditText
+        android:id="@+id/editTextUpdatePhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/stringPhone"
+        android:inputType="phone"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewphoneNumberccreate"
+        app:layout_constraintEnd_toEndOf="@+id/editTextUpdateEmailAddress"
+        app:layout_constraintStart_toStartOf="@+id/editTextUpdateEmailAddress"
+        app:layout_constraintTop_toTopOf="@+id/textViewphoneNumberccreate" />
+
+    <EditText
+        android:id="@+id/editTextUpdateType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/stringType"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewCreateType"
+        app:layout_constraintEnd_toEndOf="@+id/editTextUpdatePhone"
+        app:layout_constraintStart_toStartOf="@+id/editTextUpdatePhone"
+        app:layout_constraintTop_toTopOf="@+id/textViewCreateType" />
+
+    <Button
+        android:id="@+id/buttonCreateCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginBottom="68dp"
+        android:text="@string/stringCancel"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/buttonCreateSubmit"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/buttonCreateSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginBottom="68dp"
+        android:text="@string/StringCreateSubmit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.758"
+        app:layout_constraintStart_toEndOf="@+id/buttonCreateCancel"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUpdateType" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

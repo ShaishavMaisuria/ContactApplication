@@ -18,7 +18,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ContactDisplayFragment.ContactListener , UpdateContactFragment.UpdateContactListener,DetailFragment.DetailListener, CreateNewContact.CreateNewConatactListener {
     private final OkHttpClient client = new OkHttpClient();
     final String TAG="MainActivity";
 
@@ -30,59 +30,58 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.rootView,new ContactDisplayFragment()).commit();
     }
-void deleteContacts(String idToDelete){
 
-}
-void createContact(String name, String email, String phone,String type){
-    RequestBody formBody = new FormBody.Builder()
-            .add("name", name)
-            .add("email",email)
-            .add("phone",phone)
-            .add("type",type)
-            .build();
-    Request request = new Request.Builder()
-            .url("https://www.theappsdr.com/contact/create")
-            .post(formBody)
-            .build();
+    Contact mcontact;
+    @Override
+    public void gotContactToDetails(Contact contact) {
+        mcontact=contact;
+Log.d(TAG,"goToDetails"+contact.toString());
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.rootView,DetailFragment.newInstance(mcontact),"DetailFragment")
+                .addToBackStack("DetailFragment")
+                .commit();
+    }
 
+    @Override
+    public void gotoCreateNewContacts() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.rootView,new CreateNewContact(),"CreateNewContact")
+                .addToBackStack("CreateNewContact")
+                .commit();
+    }
 
-}
-    void getContacts(){
-        //https://www.theappsdr.com/contacts
-        Request request = new Request.Builder()
-                .url("https://www.theappsdr.com/contacts")
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                e.printStackTrace();
-            }
+    @Override
+    public void gotToContactDisplay() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.rootView,new ContactDisplayFragment())
+                .commit();
+    }
 
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-
-                if(response.isSuccessful()){
-                    ResponseBody responseBody = response.body();
-                    String body = responseBody.string();
-//                    Log.d(TAG,"OnResponse " + responseBody.string());
-
-                    final String[] contacts= body.split("\n");
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d(TAG,"runUIThread ID " + Thread.currentThread().getId());
+    @Override
+    public void goDetailToUpdateContact(Contact contact) {
+        mcontact=contact;
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.rootView,  UpdateContactFragment.newInstance(mcontact),"UpdateFragment")
+                .addToBackStack("UpdateFragment")
+                .commit();
+    }
 
 
-                        }
-                    });
-
-
-                }
-            }
-        });
+    @Override
+    public void gotToDetailFragment(Contact contact) {
+        mcontact=contact;
+        DetailFragment detailFragment= (DetailFragment) getSupportFragmentManager().findFragmentByTag("DetailFragment") ;
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.rootView,DetailFragment.newInstance(mcontact),"DetailFragment")
+//                .addToBackStack("DetailFragment")
+//                .commit();
+        if(detailFragment!=null){
+            detailFragment.DetailFragment(mcontact);
+        }
+        getSupportFragmentManager().popBackStack();
 
 
     }
+
 
 }
